@@ -1,0 +1,53 @@
+name: reachout
+
+services:
+  db:
+    container_name: reachout-db
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: reachout
+      POSTGRES_USER: ${DB_USER:-reachout}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-reachout}
+    volumes:
+      - reachout_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-reachout}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    container_name: reachout-app
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-9000}:8000"
+    volumes:
+      - ~/.reachout:/app/userdata:ro
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+
+  ollama:
+    container_name: reachout-ollama
+    profiles: ["local"]
+    image: ollama/ollama
+    restart: unless-stopped
+    volumes:
+      - reachout_ollama_models:/root/.ollama
+    # Uncomment to enable NVIDIA GPU support:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+volumes:
+  reachout_pg_data:
+  reachout_ollama_models:
