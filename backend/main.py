@@ -3,7 +3,21 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import os
 
+from routers.agent import router as agent_router
+from routers.auth import router as auth_router
+from routers.gmail import router as gmail_router
+from routers.history import router as history_router
+from routers.onboarding import router as onboarding_router
+from routers.sources import router as sources_router
+
 app = FastAPI(title="ReachOut", version="0.1.0")
+
+app.include_router(auth_router)
+app.include_router(gmail_router)
+app.include_router(onboarding_router)
+app.include_router(sources_router)
+app.include_router(history_router)
+app.include_router(agent_router)
 
 
 @app.get("/health")

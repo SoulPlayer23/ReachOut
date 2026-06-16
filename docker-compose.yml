@@ -4,7 +4,7 @@ services:
   db:
     container_name: reachout-db
     image: postgres:16-alpine
-    restart: unless-stopped
+    restart: "no"
     environment:
       POSTGRES_DB: reachout
       POSTGRES_USER: ${DB_USER:-reachout}
@@ -22,7 +22,7 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile
-    restart: unless-stopped
+    restart: "no"
     ports:
       - "${APP_PORT:-9000}:8000"
     volumes:

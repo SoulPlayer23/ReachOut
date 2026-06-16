@@ -4,6 +4,8 @@ TODO.md
 
 # Environment
 .env
+.env.local
+.env.*.local
 *.env
 
 # Python
@@ -16,20 +18,34 @@ venv/
 dist/
 build/
 .pytest_cache/
+*.sqlite3
+*.db
 
 # Node
 node_modules/
 frontend/dist/
+frontend/dist-ssr/
 frontend/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Docker
 *.override.yml
+docker-compose.override.yml
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # IDE
 .vscode/
 .idea/
 *.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log

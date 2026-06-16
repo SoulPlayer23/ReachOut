@@ -37,7 +37,8 @@ class Settings(BaseSettings):
     # Google OAuth
     google_client_id: str = ""
     google_client_secret: str = ""
-    google_redirect_uri: str = "http://localhost:8000/gmail/callback"
+    google_auth_redirect_uri: str = "http://localhost:9000/auth/google/callback"
+    google_gmail_redirect_uri: str = "http://localhost:9000/gmail/callback"
 
 
 settings = Settings()
